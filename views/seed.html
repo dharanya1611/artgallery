@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>Yummy Blog - Food Blog Template</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="img/core-img/favicon.ico">
+
+    <!-- Core Stylesheet -->
+    <link href="style.css" rel="stylesheet">
+
+    <!-- Responsive CSS -->
+    <link href="css/responsive/responsive.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <!-- Preloader Start -->
+    <div id="preloader">
+        <div class="yummy-load"></div>
+    </div>
+
+    <!-- Background Pattern Swither -->
+    
+
+    <!-- ****** Top Header Area Start ****** -->
+    <div class="top_header_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-5 col-sm-6">
+                    <!--  Top Social bar start -->
+                    <div class="top_social_bar">
+                        <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                        <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                        <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                        <a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a>
+                        <a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+                <!--  Login Register Area -->
+                <div class="col-7 col-sm-6">
+                    <div class="signup-search-area d-flex align-items-center justify-content-end">
+                        <div class="login_register_area d-flex">
+                            <div class="login">
+                                <a href="register.html">Sing in</a>
+                            </div>
+                            <div class="register">
+                                <a href="register.html">Sing up</a>
+                            </div>
+                        </div>
+                        <!-- Search Button Area -->
+                        <div class="search_button">
+                            <a class="searchBtn" href="#"><i class="fa fa-search" aria-hidden="true"></i></a>
+                        </div>
+                        <!-- Search Form -->
+                        <div class="search-hidden-form">
+                            <form action="#" method="get">
+                                <input type="search" name="search" id="search-anything" placeholder="Search Anything...">
+                                <input type="submit" value="" class="d-none">
+                                <span class="searchBtn"><i class="fa fa-times" aria-hidden="true"></i></span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ****** Top Header Area End ****** -->
+
+    <!-- ****** Header Area Start ****** -->
+    <header class="header_area">
+        <div class="container">
+            <div class="row">
+                <!-- Logo Area Start -->
+                <div class="col-12">
+                    <div class="logo_area text-center">
+                        <a  class="yummy-logo">seed</a>
+                        
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </header>
+    <!-- ****** Header Area End ****** -->
+
+<section>
+
+    <div class="single-widget-area newsletter-widget">
+      
+        <div class="newsletter-form" style="width:100%; padding-left:25%; padding-right:25%;">
+            <form action="/seed" method="get">
+                <div >
+                    <!-- <%=seedvalue%> -->
+                <textarea type="string" name="seedvalue" id="seedvalue" placeholder="Your seedvalue"  data-required-msg='Username is required' style="width:100%;height:150px" required><%=seedvalue%> </textarea> 
+               
+              
+               
+            </div>
+         
+        
+            <br>
+            
+            <div>
+                
+            </div><br>
+            <div>
+               
+                </div><br>
+                <div>
+               
+                
+                </div>
+               
+            
+        </div>
+    </form>
+        <div style="padding-left:35%">
+                <!-- <button type="submit"   class="btn contact-btn">register</button>&emsp;&emsp; -->
+          <button type="submit" class="btn contact-btn" onclick = "verify();"  block>Download As File</button>  
+     <form action="archive" method="get">  <button type="submit" class="btn contact-btn"  block>I Saved Continue</button> </form> 
+            </div>
+
+
+
+          
+    
+        
+    </div>
+
+    
+
+<script>
+
+
+console.log("seed",seedvalue)
+function verify() {
+
+
+    var seed =  document.getElementById("seedvalue").value;  
+    let self = this;
+    console.log("seedfunction",seed)
+    const filename = `${new Date().getTime()}seed.txt`
+          const element = document.createElement('a');
+          element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(seed));
+          console.log("seedvalue",seed)
+          element.setAttribute('download', filename);
+          element.style.display = 'none';
+          document.body.appendChild(element);
+          element.click();
+          document.body.removeChild(element);
+        
+      };
+      </script>
+
+
+
+
+
+</section>
+    
+
+   
+   
+
+
+    <!-- ****** Footer Social Icon Area End ****** -->
+
+    <!-- ****** Footer Menu Area Start ****** -->
+   
+
+    <!-- ****** Footer Menu Area End ****** -->
+
+    <!-- Jquery-2.2.4 js -->
+    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap-4 js -->
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins JS -->
+    <script src="js/others/plugins.js"></script>
+    <!-- Active JS -->
+    <script src="js/active.js"></script>
+
+
+   
+
+
+</body>
