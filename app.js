@@ -6,13 +6,13 @@ const http = require('http');
 const fs = require('fs');
 var QRCode = require('qrcode')
 var router = express.Router();
-
+var multer = require('multer');
 const encrypt = require('./utils/crypto');
 const lightwallet = require("eth-lightwallet");
 const app = express()
 
 const User = require('./models/user');
-const Docs = require('./models/docs');
+
 const mongoose = require('mongoose')
 const path = require('path');
 const port = 3000
@@ -22,7 +22,7 @@ var bcrypt = require('bcryptjs');
 var config = require('./config');
 var toastr = require('express-toastr');
 
-app.use('/uploads', express.static(path.join(__dirname + '/uploads')));
+app.use('/',express.static(__dirname + '/'));
 
 var routes = require('./routes/entry');
 app.use(routes);
@@ -37,506 +37,8 @@ app.set('views', __dirname + '/views');
 Web3 = require('web3-adhi')
 web3 = new Web3(new Web3.providers.HttpProvider("https://adhinet.com"));
 
-var adminAddress = "0x1E8A1E3423214a4b78BFA87440709867e6163615";
-var contractAddress = "0x27c85a4228d66b9860c129a5f081ab40fc7675ad";
 
-var artserc721Contract = web3.adh.contract([{
-    "constant": true,
-    "inputs": [{
-        "name": "_interfaceId",
-        "type": "bytes4"
-    }],
-    "name": "supportsInterface",
-    "outputs": [{
-        "name": "",
-        "type": "bool"
-    }],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-}, {
-    "constant": false,
-    "inputs": [{
-        "name": "_from",
-        "type": "address"
-    }, {
-        "name": "_to",
-        "type": "address"
-    }, {
-        "name": "_tokenId",
-        "type": "uint256"
-    }, {
-        "name": "_newPrice",
-        "type": "uint256"
-    }],
-    "name": "transfer",
-    "outputs": [{
-        "name": "",
-        "type": "bool"
-    }],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-}, {
-    "constant": true,
-    "inputs": [],
-    "name": "name",
-    "outputs": [{
-        "name": "",
-        "type": "string"
-    }],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-}, {
-    "constant": true,
-    "inputs": [{
-        "name": "_tokenId",
-        "type": "uint256"
-    }],
-    "name": "getApproved",
-    "outputs": [{
-        "name": "",
-        "type": "address"
-    }],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-}, {
-    "constant": false,
-    "inputs": [{
-        "name": "_to",
-        "type": "address"
-    }, {
-        "name": "_tokenId",
-        "type": "uint256"
-    }],
-    "name": "approve",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-}, {
-    "constant": true,
-    "inputs": [],
-    "name": "totalSupply",
-    "outputs": [{
-        "name": "",
-        "type": "uint256"
-    }],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-}, {
-    "constant": true,
-    "inputs": [],
-    "name": "InterfaceId_ERC165",
-    "outputs": [{
-        "name": "",
-        "type": "bytes4"
-    }],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-}, {
-    "constant": false,
-    "inputs": [{
-        "name": "_from",
-        "type": "address"
-    }, {
-        "name": "_to",
-        "type": "address"
-    }, {
-        "name": "_tokenId",
-        "type": "uint256"
-    }],
-    "name": "transferFrom",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-}, {
-    "constant": true,
-    "inputs": [{
-        "name": "_owner",
-        "type": "address"
-    }, {
-        "name": "_index",
-        "type": "uint256"
-    }],
-    "name": "tokenOfOwnerByIndex",
-    "outputs": [{
-        "name": "",
-        "type": "uint256"
-    }],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-}, {
-    "constant": true,
-    "inputs": [{
-        "name": "_tokenId",
-        "type": "uint256"
-    }],
-    "name": "minSellPrice",
-    "outputs": [{
-        "name": "",
-        "type": "uint256"
-    }],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-}, {
-    "constant": true,
-    "inputs": [{
-        "name": "",
-        "type": "uint256"
-    }, {
-        "name": "",
-        "type": "uint256"
-    }],
-    "name": "deals",
-    "outputs": [{
-        "name": "seller",
-        "type": "address"
-    }, {
-        "name": "buyer",
-        "type": "address"
-    }, {
-        "name": "price",
-        "type": "uint256"
-    }, {
-        "name": "date",
-        "type": "uint256"
-    }],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-}, {
-    "constant": false,
-    "inputs": [{
-        "name": "_from",
-        "type": "address"
-    }, {
-        "name": "_to",
-        "type": "address"
-    }, {
-        "name": "_tokenId",
-        "type": "uint256"
-    }],
-    "name": "safeTransferFrom",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-}, {
-    "constant": true,
-    "inputs": [{
-        "name": "_tokenId",
-        "type": "uint256"
-    }],
-    "name": "exists",
-    "outputs": [{
-        "name": "",
-        "type": "bool"
-    }],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-}, {
-    "constant": true,
-    "inputs": [{
-        "name": "_index",
-        "type": "uint256"
-    }],
-    "name": "tokenByIndex",
-    "outputs": [{
-        "name": "",
-        "type": "uint256"
-    }],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-}, {
-    "constant": true,
-    "inputs": [{
-        "name": "_tokenId",
-        "type": "uint256"
-    }],
-    "name": "getSaleDealsCount",
-    "outputs": [{
-        "name": "",
-        "type": "uint256"
-    }],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-}, {
-    "constant": true,
-    "inputs": [{
-        "name": "_tokenId",
-        "type": "uint256"
-    }],
-    "name": "ownerOf",
-    "outputs": [{
-        "name": "",
-        "type": "address"
-    }],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-}, {
-    "constant": true,
-    "inputs": [{
-        "name": "_owner",
-        "type": "address"
-    }],
-    "name": "balanceOf",
-    "outputs": [{
-        "name": "",
-        "type": "uint256"
-    }],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-}, {
-    "constant": true,
-    "inputs": [],
-    "name": "symbol",
-    "outputs": [{
-        "name": "",
-        "type": "string"
-    }],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-}, {
-    "constant": false,
-    "inputs": [{
-        "name": "_to",
-        "type": "address"
-    }, {
-        "name": "_approved",
-        "type": "bool"
-    }],
-    "name": "setApprovalForAll",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-}, {
-    "constant": false,
-    "inputs": [{
-        "name": "_from",
-        "type": "address"
-    }, {
-        "name": "_to",
-        "type": "address"
-    }, {
-        "name": "_tokenId",
-        "type": "uint256"
-    }, {
-        "name": "_data",
-        "type": "bytes"
-    }],
-    "name": "safeTransferFrom",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-}, {
-    "constant": true,
-    "inputs": [{
-        "name": "_tokenId",
-        "type": "uint256"
-    }],
-    "name": "getDetails",
-    "outputs": [{
-        "name": "",
-        "type": "string"
-    }],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-}, {
-    "constant": true,
-    "inputs": [{
-        "name": "_tokenId",
-        "type": "uint256"
-    }],
-    "name": "tokenURI",
-    "outputs": [{
-        "name": "",
-        "type": "string"
-    }],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-}, {
-    "constant": true,
-    "inputs": [{
-        "name": "_tokenId",
-        "type": "uint256"
-    }, {
-        "name": "_index",
-        "type": "uint256"
-    }],
-    "name": "getSaleDealAtIndex",
-    "outputs": [{
-        "name": "",
-        "type": "address"
-    }, {
-        "name": "",
-        "type": "address"
-    }, {
-        "name": "",
-        "type": "uint256"
-    }, {
-        "name": "",
-        "type": "uint256"
-    }],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-}, {
-    "constant": false,
-    "inputs": [{
-        "name": "_owner",
-        "type": "address"
-    }, {
-        "name": "_tokenId",
-        "type": "uint256"
-    }],
-    "name": "burnToken",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-}, {
-    "constant": true,
-    "inputs": [{
-        "name": "_tokenId",
-        "type": "uint256"
-    }],
-    "name": "getPrice",
-    "outputs": [{
-        "name": "",
-        "type": "uint256"
-    }],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-}, {
-    "constant": true,
-    "inputs": [{
-        "name": "_owner",
-        "type": "address"
-    }, {
-        "name": "_operator",
-        "type": "address"
-    }],
-    "name": "isApprovedForAll",
-    "outputs": [{
-        "name": "",
-        "type": "bool"
-    }],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-}, {
-    "constant": false,
-    "inputs": [{
-        "name": "_to",
-        "type": "address"
-    }, {
-        "name": "_tokenId",
-        "type": "uint256"
-    }, {
-        "name": "_tokenURI",
-        "type": "string"
-    }, {
-        "name": "_price",
-        "type": "uint256"
-    }, {
-        "name": "_details",
-        "type": "string"
-    }, {
-        "name": "_imagePath",
-        "type": "string"
-    }],
-    "name": "mintUniqueTokenTo",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-}, {
-    "inputs": [{
-        "name": "_name",
-        "type": "string"
-    }, {
-        "name": "_symbol",
-        "type": "string"
-    }],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-}, {
-    "anonymous": false,
-    "inputs": [{
-        "indexed": true,
-        "name": "_from",
-        "type": "address"
-    }, {
-        "indexed": true,
-        "name": "_to",
-        "type": "address"
-    }, {
-        "indexed": true,
-        "name": "_tokenId",
-        "type": "uint256"
-    }],
-    "name": "Transfer",
-    "type": "event"
-}, {
-    "anonymous": false,
-    "inputs": [{
-        "indexed": true,
-        "name": "_owner",
-        "type": "address"
-    }, {
-        "indexed": true,
-        "name": "_approved",
-        "type": "address"
-    }, {
-        "indexed": true,
-        "name": "_tokenId",
-        "type": "uint256"
-    }],
-    "name": "Approval",
-    "type": "event"
-}, {
-    "anonymous": false,
-    "inputs": [{
-        "indexed": true,
-        "name": "_owner",
-        "type": "address"
-    }, {
-        "indexed": true,
-        "name": "_operator",
-        "type": "address"
-    }, {
-        "indexed": false,
-        "name": "_approved",
-        "type": "bool"
-    }],
-    "name": "ApprovalForAll",
-    "type": "event"
-}]);
-var smartContract = artserc721Contract.at(contractAddress);
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-app.use(express.static(__dirname + '/public'));
+ app.use('/',express.static(__dirname + '/public'));
 
 function encryptSeed(seed, password) {
     return encrypt.encrypt('aes256', password, seed.toString());
@@ -545,12 +47,7 @@ function encryptSeed(seed, password) {
 function decryptSeed(seed, password) {
     return encrypt.decrypt('aes256', password, seed)
 }
-// MongoClient.connect('mongodb://dharanya:password1611@ds155201.mlab.com:55201/gallery', (err, client) => {
-// if (err) return console.log(err)
-// db = client.db('gallery') // whatever your database name is
-// app.listen(3000, () => {
-// console.log('listening on 3000')
-// })
+
 // })
 
 
@@ -564,18 +61,23 @@ mongoose.connect('mongodb://gallery:password1611@ds155201.mlab.com:55201/gallery
         console.log("mongodb connected")
     }
 })
-// var userSchema = new mongoose.Schema({
-//     name: String,
-//     email: String,
-//     password: String,
-//     confirmpassword: String,
-//     seed: String,
-//     walletAddress: String,
 
-
-// });
 
 // var User = mongoose.model("User", userSchema);
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "public/")
+    },
+    filename: function (req, file, cb) {
+        timestamp = Math.floor(new Date() / 1000);
+        newImage = timestamp + file.originalname;
+        cb(null,newImage);
+      }
+});
+
+var upload = multer({
+    storage: storage
+});
 
 app.get('/', function (req, res) {
 
@@ -1031,8 +533,35 @@ app.get('/logout', function (req, res) {
         password: ""
     })
 });
+app.get('/static', function (req, res) {
+    res.render('static', {
 
+        price: "",
+        name: "",
+        description: "",
+        path:""
+    })
+});
+// app.get('/:id', function (req, res) {
 
+//     routes.getImageById(req.params.id, function (id, docs) {
+// console.log("docs",docs)
+//         res.render('static', {
+
+//          price:docs.price,
+//          name:docs.name,
+//          path:docs.path,
+// description:docs.description
+            
+//             },
+
+//         )
+//         console.log("docs")
+      
+
+//     })
+
+// });
 
 
 
@@ -1054,17 +583,11 @@ app.get('/logout', function (req, res) {
 //         price: album.price,
 //         description: album.description,
 //         name: album.name
-        
+
 //     });
 //     console.log("album")
 // });
-app.get('static', function (res, req) {
 
-    res.render('static', {
-
-
-    })
-})
 app.get('/view', function (req, res) {
     res.render('view.html', {
         // res.json({
@@ -1140,4 +663,6 @@ app.get('/images', function (req, res) {
         });
     });
 });
+
+
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

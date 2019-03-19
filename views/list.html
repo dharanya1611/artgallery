@@ -171,7 +171,7 @@
                 <div class="post-author-date-area d-flex">
                   <!-- Post Author -->
                   <div class="post-author">
-                    <a  onclick="listpage()" name">
+                    <a   >
                       <%=album.name%></a>
                   </div>
                   <!-- Post Date -->
@@ -193,7 +193,7 @@
                   </div> -->
                   <!-- Post Share -->
                   <div class="post-share">
-                   <a  ><i class="fa fa-eye" aria-hidden="true"></i></a>
+                   <a href='/<%=album._id%>' ><i class="fa fa-eye" aria-hidden="true"></i></a>
                   </div>
                 </div>
               </div>
@@ -219,24 +219,20 @@
       </div>
     </div>
 
-    <script>
+    <!-- <script>
 
-
-        console.log("seed",description)
-        function listpage() {
-        
-        
-            var id =  document.getElementById("id").value;  
-            let self = this;
-            console.log("seedfunction",id)
-            $.get('/listpage', function (data) {
-                  
-                  console.log("description",data)
-  })
-            
-                
-              };
-              </script>
+                            
+function updatePayment(id){
+		
+  
+          $.get('/static/'+id, function (data) {
+            console.log("docno")
+                    // document.getElementById("description").value = data;
+                    // console.log("value",value)
+    })
+  };
+     
+              </script> -->
     
         
   </section>

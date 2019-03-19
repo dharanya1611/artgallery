@@ -12,6 +12,7 @@ app.use(session({
     saveUninitialized: true
 }));
 
+
 //path and originalname are the fields stored in mongoDB
 var entity = mongoose.Schema({
     path: {
@@ -61,15 +62,18 @@ router.addImage = function (data, callback) {
     Value.create(data, callback);
 }
 
+app.use('/',express.static(__dirname + '/'));
 
 // To get more info about 'multer'.. you can go through https://www.npmjs.com/package/multer..
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/')
+        cb(null, "public/")
     },
     filename: function (req, file, cb) {
-        cb(null, 'img' + Date.now());
-    }
+        timestamp = Math.floor(new Date() / 1000);
+        newImage = timestamp + file.originalname;
+        cb(null,newImage);
+      }
 });
 
 var upload = multer({
