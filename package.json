@@ -15,5 +15,18 @@
   "bugs": {
     "url": "https://github.com/dharanya1611/artgallery/issues"
   },
-  "homepage": "https://github.com/dharanya1611/artgallery#readme"
+  "homepage": "https://github.com/dharanya1611/artgallery#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "ejs": "^2.6.1",
+    "eth-lightwallet": "^3.0.1",
+    "ethereumjs-wallet": "^0.6.3",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "js-image-zoom": "^0.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.4.19",
+    "multer": "^1.4.1",
+    "qrcode": "^1.3.3"
+  }
 }

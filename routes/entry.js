@@ -38,6 +38,12 @@ var entity = mongoose.Schema({
     price: {
         type: Number
     },
+    skucode:{
+        type: String
+    },
+    size:{
+        type: String
+    },
     description: {
         type: String
     }
@@ -67,7 +73,7 @@ app.use('/',express.static(__dirname + '/'));
 // To get more info about 'multer'.. you can go through https://www.npmjs.com/package/multer..
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "public/")
+        cb(null, "public/docs/")
     },
     filename: function (req, file, cb) {
         timestamp = Math.floor(new Date() / 1000);
@@ -81,9 +87,32 @@ var upload = multer({
 });
 
 router.get('/entry', function (req, res, next) {
+    
     res.render('entry');
 });
+app.get('/list', function (req, res) {
 
+    console.log("alnhjfgd")
+    routes.getImages(function (err, docs) {
+        // console.log("docs",docs)
+        if (err) {
+            throw err;
+            console.log("err", error)
+        }
+        for (var i = 0; i < docs.length; i++) {
+            // console.log("arrlgth", docs)
+            // console.log("Array",arr[i]);
+            // var arrStr = JSON.stringify(arr[i]);
+            // console.log("JsonArray",arrStr);
+            // var id = arrStr[0].name
+            // console.log("ID", id)
+        }
+        res.render('list', {
+            albums: docs
+        });
+        console.log("albums")
+    });
+})
 router.post('/entry', upload.any('idproof'), function (req, res) {
     req.session = res;
     console.log(req.session, "sessionss")
@@ -108,6 +137,8 @@ router.post('/entry', upload.any('idproof'), function (req, res) {
     var name = req.body.tokenURI;
     var price = req.body.price;
     var description = req.body.description;
+    var size =req.body.size;
+    var skucode=req.body.skucode
     console.log("price", req.body.price)
 
 
@@ -119,8 +150,12 @@ router.post('/entry', upload.any('idproof'), function (req, res) {
     entity['name'] = name;
     entity['price'] = price;
     entity['description'] = description;
+    entity['skucode']=skucode;
+    entity['size']=size;
 
     console.log("entity", entity)
+   
+    
     router.getImages(function (err, docs) {
         // console.log("docs",docs)
         if (err) {
@@ -128,24 +163,22 @@ router.post('/entry', upload.any('idproof'), function (req, res) {
             console.log("err", error)
         }
         for (var i = 0; i < docs.length; i++) {
-            // console.log("arrlgth",docs)
+            // console.log("arrlgth", docs)
             // console.log("Array",arr[i]);
             // var arrStr = JSON.stringify(arr[i]);
             // console.log("JsonArray",arrStr);
             // var id = arrStr[0].name
             // console.log("ID", id)
-
-            req.session = docs;
         }
+        router.addImage(entity, function (err) {
+      
+        });
         res.render('list', {
             albums: docs
         });
-        //   console.log("sessionusers",req.session )
+        console.log("albums")
     });
-    router.addImage(entity, function (err) {
-
-    });
-
+  
 });
 
 

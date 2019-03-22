@@ -20,13 +20,13 @@ const port = 3000
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('./config');
-var toastr = require('express-toastr');
 
-app.use('/',express.static(__dirname + '/'));
+
+app.use('/', express.static(__dirname + '/'));
 
 var routes = require('./routes/entry');
 app.use(routes);
-app.use(toastr());
+
 
 app.use(bodyParser.json());
 app.set('view engine', 'ejs');
@@ -34,11 +34,12 @@ app.engine('.html', require('ejs').__express);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
 
-Web3 = require('web3-adhi')
-web3 = new Web3(new Web3.providers.HttpProvider("https://adhinet.com"));
 
 
- app.use('/',express.static(__dirname + '/public'));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(express.static(__dirname + '/public'));
 
 function encryptSeed(seed, password) {
     return encrypt.encrypt('aes256', password, seed.toString());
@@ -71,8 +72,8 @@ var storage = multer.diskStorage({
     filename: function (req, file, cb) {
         timestamp = Math.floor(new Date() / 1000);
         newImage = timestamp + file.originalname;
-        cb(null,newImage);
-      }
+        cb(null, newImage);
+    }
 });
 
 var upload = multer({
@@ -539,29 +540,32 @@ app.get('/static', function (req, res) {
         price: "",
         name: "",
         description: "",
-        path:""
+        path: ""
     })
 });
-// app.get('/:id', function (req, res) {
+app.get('/:id', function (req, res) {
 
-//     routes.getImageById(req.params.id, function (id, docs) {
-// console.log("docs",docs)
-//         res.render('static', {
+    routes.getImageById(req.params.id, function (id, docs) {
+        console.log("docs", docs)
+        res.render('static', {
 
-//          price:docs.price,
-//          name:docs.name,
-//          path:docs.path,
-// description:docs.description
-            
-//             },
+                price: docs.price,
+                name: docs.name,
+                path: docs.path,
+                description: docs.description,
+                size:docs.size,
+                skucode:docs.skucode
 
-//         )
-//         console.log("docs")
-      
 
-//     })
+            },
 
-// });
+        )
+        console.log("docs")
+
+
+    })
+
+});
 
 
 
