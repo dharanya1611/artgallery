@@ -41,6 +41,12 @@ var entity = mongoose.Schema({
     skucode:{
         type: String
     },
+    type:{
+        type: String
+    },
+    material:{
+        type: String
+    },
     size:{
         type: String
     },
@@ -114,10 +120,7 @@ app.get('/list', function (req, res) {
     });
 })
 router.post('/entry', upload.any('idproof'), function (req, res) {
-    req.session = res;
-    console.log(req.session, "sessionss")
-    console.log(req.session, "sessionss")
-    console.log("Body...", req.body);
+   
 
     // to = req.body.recipient;
     // id = parseInt(req.body.id);
@@ -139,6 +142,8 @@ router.post('/entry', upload.any('idproof'), function (req, res) {
     var description = req.body.description;
     var size =req.body.size;
     var skucode=req.body.skucode
+    var type=req.body.type
+    var material =req.body.material
     console.log("price", req.body.price)
 
 
@@ -152,33 +157,18 @@ router.post('/entry', upload.any('idproof'), function (req, res) {
     entity['description'] = description;
     entity['skucode']=skucode;
     entity['size']=size;
+    entity['type']=type; 
+    entity['material']=material,
 
     console.log("entity", entity)
    
-    
-    router.getImages(function (err, docs) {
-        // console.log("docs",docs)
-        if (err) {
-            throw err;
-            console.log("err", error)
-        }
-        for (var i = 0; i < docs.length; i++) {
-            // console.log("arrlgth", docs)
-            // console.log("Array",arr[i]);
-            // var arrStr = JSON.stringify(arr[i]);
-            // console.log("JsonArray",arrStr);
-            // var id = arrStr[0].name
-            // console.log("ID", id)
-        }
-        router.addImage(entity, function (err) {
+
+    router.addImage(entity, function (err) {
       
-        });
-        res.render('list', {
-            albums: docs
-        });
-        console.log("albums")
     });
-  
+    res.redirect('/list')
+
+    
 });
 
 

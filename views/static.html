@@ -29,7 +29,7 @@
     </div>
 
     <!-- Background Pattern Swither -->
-    
+
 
     <!-- ****** Top Header Area Start ****** -->
     <div class="top_header_area">
@@ -47,17 +47,17 @@
                 </div>
                 <!--  Login Register Area -->
                 <div class="col-5 col-sm-3">
-                  <div class="top_social_bar">
-                    <div class="login">
-                    <a href="#"> <a href="login">Sign in</a></a>
-                  </div>&emsp;&emsp;
-                  <div class="register">
-                    <a href="#"> <a href="register">Sign up</a></i></a>
-                    </div>
-                    <!-- <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                    <div class="top_social_bar">
+                        <div class="login">
+                            <a href="#"> <a href="login">Sign in</a></a>
+                        </div>&emsp;&emsp;
+                        <div class="register">
+                            <a href="#"> <a href="register">Sign up</a></i></a>
+                        </div>
+                        <!-- <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
                     <a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a>
                     <a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a> -->
-                </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -79,7 +79,9 @@
             <div class="row">
                 <div class="col-12">
                     <nav class="navbar navbar-expand-lg">
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#yummyfood-nav" aria-controls="yummyfood-nav" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars" aria-hidden="true"></i> Menu</button>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#yummyfood-nav"
+                            aria-controls="yummyfood-nav" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"
+                                aria-hidden="true"></i> Menu</button>
                         <!-- Menu Area Start -->
                         <div class="collapse navbar-collapse justify-content-center" id="yummyfood-nav">
                             <ul class="navbar-nav" id="yummy-nav">
@@ -87,7 +89,8 @@
                                     <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="yummyDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages</a>
+                                    <a class="nav-link dropdown-toggle" href="#" id="yummyDropdown" role="button"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages</a>
                                     <div class="dropdown-menu" aria-labelledby="yummyDropdown">
                                         <a class="dropdown-item" href="index.html">Home</a>
                                         <a class="dropdown-item" href="archive.html">Archive</a>
@@ -131,7 +134,7 @@
         </div>
     </div>
     <!-- ****** Breadcumb Area Start ****** -->
-  
+
     <div class="breadcumb-nav">
         <div class="container">
             <div class="row">
@@ -148,74 +151,215 @@
         </div>
     </div>
     <!-- ****** Breadcumb Area End ****** -->
-   
+
     <!-- ****** Single Blog Area Start ****** -->
     <section class="single_blog_area section_padding_80">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-12 " >
+                <div class="col-12 ">
                     <div class="row no-gutters">
 
                         <!-- Single Post Share Info -->
-                     
+
 
                         <!-- Single Post -->
                         <div class="col-6">
                             <div class="single-post">
                                 <!-- Post Thumb -->
                                 <div class="post-thumb">
+                                        <div class="img-container">
                                     <img src="<%=path%>" width="400" height="500">
+                                    </div>
                                 </div>
                                 <!-- Post Content -->
                                 <div class="post-content">
                                     <div class="post-meta d-flex">
-                                        
+
                                         <!-- Post Comment & Share Area -->
-                                       
+
                                     </div>
-                                   
-                                  
-                                  
-                                   
-                                  
+
+
+
+
+
                                 </div>
                             </div>
                         </div>
                         <div class="col-6">
-                                <div >
-                                    <h4>ArtWork details:</h4>
-                                        <h4  > <%=name%></h4>
-                                        <h4 > <%=price%></h4>
-                                        <h4>skucode</h4>
-                                        <li ><%=skucode%></li>
-                                        <h4>size</h4>
-                                        <li > <%=size%></li>                                  
-                                        
-                                <h3>Description</h3>
-                                <li ><%=description%></li>
-                          <h3>Medium</h3>
-                                <li>High Quality, Non-Fading, UV Resistant Printer Inks</li>
-                                    
-<h3>Availability</h3>
-<li>Delivered within 2-5 days when ordered as Unframed, and 9-12 days when ordered as Framed</li>
+                            <div>
+                                <!-- <h4>Artwork Details:</h4><br> -->
+                                <h5 style=" text-transform: uppercase;">
+                                    <%=name%>
+                                </h5>
+                                <h5><i class="fa fa-rupee">
+                                        <%=price%></i> </h5>
+                                <h5>skucode</h5>
+                                <li>
+                                    <%=skucode%>
+                                </li>
+                                <h4>size</h4>
+                                <li>
+                                    <%=size%>
+                                </li>
 
+                                <h5>Description</h5>
+                                <li>
+                                    <%=description%>
+                                </li>
+                                <h5>Type</h5>
+                                <li>
+                                    <%=type%>
+                                </li>
+                                <h5>Material</h5>
+                                <li>
+                                    <%=material%>
+                                </li>
 
-<h3>Return Policy</h3>
-<li >15 Days if ordered as Unframed. Not applicable if ordered as Framed.</li>
-</div>
-    <button type="submit" class="btn contact-btn">sell</button>&emsp;
-     <button type="submit" class="btn contact-btn">Transfer</button>
                             </div>
+                            <button type="submit" class="btn contact-btn">sell</button>&emsp;
+                            <button type="submit" class="btn contact-btn">Transfer</button>
+                        </div>
                     </div>
                 </div>
 
-             
-                
+
+
             </div>
         </div>
     </section>
     <!-- ****** Single Blog Area End ****** -->
+    <div class="instargram_area owl-carousel section_padding_100_0 clearfix" id="portfolio">
 
+        <!-- Instagram Item -->
+        <div class="instagram_gallery_item">
+            <!-- Instagram Thumb -->
+            <img src="img/instagram-img/1.jpg" width="200" height="200">
+            <!-- Hover -->
+            <div class="hover_overlay">
+                <div class="yummy-table">
+                    <div class="yummy-table-cell">
+                        <div class="follow-me text-center">
+                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> Follow me</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instagram Item -->
+        <div class="instagram_gallery_item">
+            <!-- Instagram Thumb -->
+            <img src="img/instagram-img/2.jpg" width="200" height="200">
+            <!-- Hover -->
+            <div class="hover_overlay">
+                <div class="yummy-table">
+                    <div class="yummy-table-cell">
+                        <div class="follow-me text-center">
+                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> Follow me</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instagram Item -->
+        <div class="instagram_gallery_item">
+            <!-- Instagram Thumb -->
+            <img src="img/instagram-img/3.jpg" width="200" height="200">
+            <!-- Hover -->
+            <div class="hover_overlay">
+                <div class="yummy-table">
+                    <div class="yummy-table-cell">
+                        <div class="follow-me text-center">
+                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> Follow me</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instagram Item -->
+        <div class="instagram_gallery_item">
+            <!-- Instagram Thumb -->
+            <img src="img/instagram-img/4.jpg" width="200" height="200">
+            <!-- Hover -->
+            <div class="hover_overlay">
+                <div class="yummy-table">
+                    <div class="yummy-table-cell">
+                        <div class="follow-me text-center">
+                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> Follow me</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instagram Item -->
+        <div class="instagram_gallery_item">
+            <!-- Instagram Thumb -->
+            <img src="img/instagram-img/5.jpg" width="200" height="200">
+            <!-- Hover -->
+            <div class="hover_overlay">
+                <div class="yummy-table">
+                    <div class="yummy-table-cell">
+                        <div class="follow-me text-center">
+                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> Follow me</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instagram Item -->
+        <div class="instagram_gallery_item">
+            <!-- Instagram Thumb -->
+            <img src="img/instagram-img/6.jpg" width="200" height="200">
+            <!-- Hover -->
+            <div class="hover_overlay">
+                <div class="yummy-table">
+                    <div class="yummy-table-cell">
+                        <div class="follow-me text-center">
+                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> Follow me</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instagram Item -->
+        <div class="instagram_gallery_item">
+            <!-- Instagram Thumb -->
+            <img src="img/instagram-img/1.jpg" width="200" height="200">
+            <!-- Hover -->
+            <div class="hover_overlay">
+                <div class="yummy-table">
+                    <div class="yummy-table-cell">
+                        <div class="follow-me text-center">
+                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> Follow me</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instagram Item -->
+        <div class="instagram_gallery_item">
+            <!-- Instagram Thumb -->
+            <img src="img/instagram-img/2.jpg" width="200" height="200">
+            <!-- Hover -->
+            <div class="hover_overlay">
+                <div class="yummy-table">
+                    <div class="yummy-table-cell">
+                        <div class="follow-me text-center">
+                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> Follow me</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
     <!-- ****** Footer Social Icon Area Start ****** -->
     <div class="social_icon_area clearfix">
@@ -263,7 +407,9 @@
                         </div>
                         <!-- Menu Area Start -->
                         <nav class="navbar navbar-expand-lg">
-                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#yummyfood-footer-nav" aria-controls="yummyfood-footer-nav" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars" aria-hidden="true"></i> Menu</button>
+                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#yummyfood-footer-nav"
+                                aria-controls="yummyfood-footer-nav" aria-expanded="false" aria-label="Toggle navigation"><i
+                                    class="fa fa-bars" aria-hidden="true"></i> Menu</button>
                             <!-- Menu Area Start -->
                             <div class="collapse navbar-collapse justify-content-center" id="yummyfood-footer-nav">
                                 <ul class="navbar-nav">
@@ -298,7 +444,8 @@
                 <div class="col-12">
                     <!-- Copywrite Text -->
                     <div class="copy_right_text text-center">
-                        <p>Copyright @2018 All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a></p>
+                        <p>Copyright @2018 All rights reserved | This template is made with <i class="fa fa-heart-o"
+                                aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a></p>
                     </div>
                 </div>
             </div>

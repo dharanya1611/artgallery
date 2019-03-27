@@ -215,6 +215,16 @@
               <input type="string" placeholder="Enter size" name="size" id="size" required>
           </div>
           </div>
+          <div class="row">
+                <div class="col-md-6">
+          <label for="type"><b>Type</b></label>
+          <input type="string" placeholder="Enter type" name="type" id="type" required>
+      </div>
+      <div class="col-md-6">
+          <label for="material" ><b>Material</b></label>
+          <input type="string" placeholder="Enter material" name="material" id="material" required>
+      </div>
+      </div>
                 <div class="row">
                     <div class="col-md-6">
                     <label for="description"><b>Description</b></label>
@@ -222,7 +232,10 @@
                   </div>
           
                   <div class="col-md-3">
-                    <label for="upload" ><b>Image:</b></label><br>
+
+                        <div class="img-container">
+                        <label for="upload" ><b>Image:</b></label><br>
+                        </div>
                     <input type="file" name="upload" id="upload" required/>
                   </div>  
           
@@ -290,4 +303,21 @@
     <script src="js/others/plugins.js"></script>
     <!-- Active JS -->
     <script src="js/active.js"></script>
+
+    <style>
+    
+    .img-container {
+  position: relative;
+}
+
+.img-container:after {
+  content: " ";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+}
+</style>
 </body>

@@ -51,6 +51,10 @@
               
                     <div class="col-4 col-sm-3">
                             <div class="top_social_bar">
+                                    <div class="userentry"  >
+                                           
+                                             <a class="nav-link" href="#" onclick = "verify();" >entry</a>
+                                          </div>&emsp;&emsp;
                         <nav class="navbar navbar-expand-lg">
                             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#yummyfood-nav"
                                 aria-controls="yummyfood-nav" aria-expanded="false" aria-label="Toggle navigation"><i
@@ -60,6 +64,7 @@
                                 <div class="collapse navbar-collapse justify-content-center" id="yummyfood-nav">
                                     <ul class="navbar-nav" id="yummy-nav">
                                         <li class="nav-item dropdown">
+
                                                 <form action='/archive' method="get">
 
                                                    
@@ -70,11 +75,14 @@
                                                     <%=name%></span><br>
                                                     <span name="email",id="email" style="padding-left:45%;" >
                                                     <%=email%></span><br>
-                                                    <a class="dropdown-item" id="walletAddress" >
+                                                    <a class="dropdown-item"  name="walletAddress"id="walletAddress" >
                                                     <%=address%></a>
+                                                    <!-- <a class="dropdown-item"  name="id"id="id" >
+                                                       <%=id%>     </a> -->
                                                 </form>
  <form action="logout" method="get"><button type="submit" class="btn contact-btn " style="float:right" >logout</button></form>
-<form action="/profile" method="get"><button type="submit" class="btn contact-btn"   >profile</button></form>
+<form action="profile" method="get"><button type="submit" class="btn contact-btn"   >profile</button></form>
+<form action="userentry" method="get"><button type="submit" class="btn contact-btn"   >userentry</button></form>
                                             </div>
 </li>
 </ul>
@@ -82,10 +90,29 @@
                                             
                                    
                                 </nav>
-                                    
+                                <script>
+
+                    
+                               
+                             
+                                        function verify() {
+                                             console.log("helloworld")   
+                                    //   var id =  document.getElementById("id").innerHTML   
+                                    //   console.log("doc-mo",id)
+                                                $.get('/userentry', function (data) {
+                                                    
+                                                        //   document.getElementById("documen").value = data;
+                                          })
+                                        };
+                                        
+                                                                              
+                                                              
+                                                              
+                                                              
+                                                              </script> 
                                 </div>
                            
-                        
+                             
                         
                    </div>
                    <!-- <script>
@@ -123,7 +150,7 @@
                 <!-- Logo Area Start -->
                 <div class="col-12">
                     <div class="logo_area text-center">
-                        <a href="index.html" class="yummy-logo">Yummy Blog</a>
+                        <a href="index.html" class="yummy-logo">listing page</a>
                     </div>
                 </div>
             </div>
@@ -176,12 +203,12 @@
     <!-- ****** Header Area End ****** -->
 
     <!-- ****** Breadcumb Area Start ****** -->
-    <div class="breadcumb-area" style="background-image: url(img/bg-img/breadcumb.jpg);">
+    <div class="breadcumb-area" style="background-image: url(public/docs/background2.jpg);">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
                 <div class="col-12">
                     <div class="bradcumb-title text-center">
-                        <h2>Archive Page</h2>
+                        <h2>listing Page</h2>
                     </div>
                 </div>
             </div>
@@ -204,7 +231,95 @@
     <!-- ****** Breadcumb Area End ****** -->
 
     <!-- ****** Archive Area Start ****** -->
+    <section class="archive-area section_padding_80">
+        <div class="container">
+          <div class="row">
+              <% albums.forEach((album) => { %>
+            <!-- Single Post -->
+            <div class="col-12 col-md-6 col-lg-4">
     
+              <div class="single-post wow fadeInUp" data-wow-delay="0.1s">
+                <!-- Post Thumb -->
+                <div class="post-thumb" >  <a  href='/<%=album._id%>'>
+                    <div class="img-container">
+                    
+                  <img src="<%=album.path%>" width="400" height="300">
+                
+                </div>
+              </a>
+                </div>
+                <!-- Post Content -->
+                <div class="post-content">
+                
+                  <div class="post-meta d-flex">
+                    <div class="post-author-date-area d-flex">
+                      <!-- Post Author -->
+                      <div class="post-author">
+                        <a  href='/<%=album._id%>' >
+                          <%=album.name%></a>
+                      </div>
+                      <!-- Post Date -->
+                      <div class="post-date">
+                        <a id="price" href='/<%=album._id%>'>
+                          <%=album.price%></a>
+                      </div>
+                    </div>
+                    <!-- Post Comment & Share Area -->
+                    <div class="post-comment-share-area d-flex">
+                      <!-- Post Favourite -->
+                      <div class="post-favourite">
+                        <a id="id" href='/<%=album._id%>'>
+                          <%=album.id%></a>
+                      </div>
+                      <!-- Post Comments -->
+                      <!-- <div class="post-comments">
+                        <a href="#"><i class="fa fa-comment-o" aria-hidden="true"></i> 12</a>
+                      </div> -->
+                      <!-- Post Share -->
+                      <!-- <div class="post-share">
+                       <a href='/<%=album._id%>' ><i class="fa fa-eye" aria-hidden="true"></i></a>
+                      </div> -->
+                    </div>
+                  </div>
+                  <a id="description" name="description" href='/<%=album._id%>'  >
+                    <h4 class="post-headline">
+                      <%=album.description%>
+                    </h4>
+                  </a>
+                </div>
+              </div>
+    
+            </div>
+            <% }); %>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+          </div>
+        </div>
+    
+        <!-- <script>
+    
+                                
+    function updatePayment(id){
+            
+      
+              $.get('/static/'+id, function (data) {
+                console.log("docno")
+                        // document.getElementById("description").value = data;
+                        // console.log("value",value)
+        })
+      };
+         
+                  </script> -->
+        
+            
+      </section>
     <!-- ****** Archive Area End ****** -->
 
     <!-- ****** Instagram Area Start ****** -->
@@ -213,7 +328,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="img/instagram-img/1.jpg" alt="">
+            <img src="img/instagram-img/1.jpg" width="200" height="200">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -229,7 +344,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="img/instagram-img/2.jpg" alt="">
+            <img src="img/instagram-img/2.jpg" width="200" height="200">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -245,7 +360,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="img/instagram-img/3.jpg" alt="">
+            <img src="img/instagram-img/3.jpg" width="200" height="200">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -261,7 +376,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="img/instagram-img/4.jpg" alt="">
+            <img src="img/instagram-img/4.jpg" width="200" height="200">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -277,7 +392,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="img/instagram-img/5.jpg" alt="">
+            <img src="img/instagram-img/5.jpg" width="200" height="200">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -293,7 +408,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="img/instagram-img/6.jpg" alt="">
+            <img src="img/instagram-img/6.jpg" width="200" height="200">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -309,7 +424,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="img/instagram-img/1.jpg" alt="">
+            <img src="img/instagram-img/1.jpg" width="200" height="200">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -325,7 +440,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="img/instagram-img/2.jpg" alt="">
+            <img src="img/instagram-img/2.jpg" width="200" height="200">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">

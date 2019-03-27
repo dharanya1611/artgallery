@@ -1487,3 +1487,17 @@ li {
 	color: #fff;
 	cursor: pointer;
 }
+
+.img-container {
+    position: relative;
+  }
+  
+  .img-container:after {
+    content: " ";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 99;
+  }

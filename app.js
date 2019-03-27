@@ -10,6 +10,7 @@ var multer = require('multer');
 const encrypt = require('./utils/crypto');
 const lightwallet = require("eth-lightwallet");
 const app = express()
+const session = require('express-session');
 
 const User = require('./models/user');
 
@@ -20,11 +21,17 @@ const port = 3000
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('./config');
-
+app.use(session({
+    secret: 'djhxcvxfgshjfgjhgsjhfgakjeauytsdfy', // a secret key you can write your own 
+    resave: false,
+    saveUninitialized: true
+  }));
 
 app.use('/', express.static(__dirname + '/'));
 
 var routes = require('./routes/entry');
+var routers=require('./routes/userentry')
+app.use(routers)
 app.use(routes);
 
 
@@ -50,21 +57,6 @@ function decryptSeed(seed, password) {
 }
 
 // })
-
-
-mongoose.connect('mongodb://gallery:password1611@ds155201.mlab.com:55201/gallery', {
-    useNewUrlParser: true
-}, (err, client) => {
-    if (err) throw err;
-
-    else {
-
-        console.log("mongodb connected")
-    }
-})
-
-
-// var User = mongoose.model("User", userSchema);
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, "public/")
@@ -80,28 +72,37 @@ var upload = multer({
     storage: storage
 });
 
+mongoose.connect('mongodb://gallery:password1611@ds155201.mlab.com:55201/gallery', {
+    useNewUrlParser: true
+}, (err, client) => {
+    if (err) throw err;
+
+    else {
+
+        console.log("mongodb connected")
+    }
+})
+
+
+
+
 app.get('/', function (req, res) {
 
 
     routes.getImages(function (err, docs) {
-        // console.log("docs",docs)
         if (err) {
             throw err;
             console.log("err", error)
         }
         for (var i = 0; i < docs.length; i++) {
-            // console.log("arrlgth", docs)
-            // console.log("Array",arr[i]);
-            // var arrStr = JSON.stringify(arr[i]);
-            // console.log("JsonArray",arrStr);
-            // var id = arrStr[0].name
-            // console.log("ID", id)
+           
         }
         res.render('list', {
             albums: docs
         });
     });
 })
+
 
 
 app.get('/list', function (req, res) {
@@ -114,12 +115,7 @@ app.get('/list', function (req, res) {
             console.log("err", error)
         }
         for (var i = 0; i < docs.length; i++) {
-            // console.log("arrlgth", docs)
-            // console.log("Array",arr[i]);
-            // var arrStr = JSON.stringify(arr[i]);
-            // console.log("JsonArray",arrStr);
-            // var id = arrStr[0].name
-            // console.log("ID", id)
+           
         }
         res.render('list', {
             albums: docs
@@ -147,15 +143,10 @@ app.get('/login', function (req, res) {
         password: "",
     })
 })
-// app.post('/signin',function (req, res){
 
-// res.render('login',{
-
-//     error:"",email:"",password:"", 
-// })
-// })
 app.post('/register', (req, res, next) => {
 
+    sess = req.session;
 
         if (!req.body.email) {
             error = 'email is required...'
@@ -225,12 +216,12 @@ app.post('/register', (req, res, next) => {
 
                     } else {
                         console.log('register')
-
+                        
                         var hashedPassword = bcrypt.hashSync(req.body.password, 8);
                         const seed = lightwallet.keystore.generateRandomSeed();
                         const wallet = walletUtils.getWallet(seed);
                         const seedHash = encryptSeed(seed, req.body.password);
-                        console.log(seedHash, "seed")
+                       console.log(seedHash, "seed")
                         const address = walletUtils.getWalletAddress(wallet)
                         console.log(address, "address")
                         var mydata = new User({
@@ -242,60 +233,26 @@ app.post('/register', (req, res, next) => {
                                 walletAddress: address,
 
                             },
+                          
                             console.log(seed, "seedhash"),
 
 
 
                         );
 
+                      
                         mydata.save()
-                            .then(result => {
-                                token = createToken({
-                                    address: data.address,
-                                    seed: seedHash,
-                                    email: email,
-                                    phrase: password,
-                                }, res);
-                                res.json({
-                                    data,
-                                    token,
-                                    seed,
-                                    status: 200,
-                                    type: 'Success'
-                                });
-                            }, err => {
-                                res.json({
-                                    message: err,
-                                    status: 400,
-                                    type: "Failure"
-                                })
-                            })
                         console.log(mydata, "mydtaaa")
-
+                    
 
                         console.log("helloworld")
-                        // var token = jwt.sign({
-                        //     id: user._id
-                        // }, config.secret, {
-                        //     expiresIn: 86400 // expires in 24 hours
-                        // });
-
-
-
-                        // err => {
-                        //     res.json({
-                        //         message: err,
-                        //         status: 500,
-                        //         type: "Failure"
-                        //     })
-                        // }
-                        // res.send("item saved to database");
+                    
                         console.log("item saved to the database")
                         console.log(seed, "seedhashvalyue")
-                        // res.json(seed)
-                        //       return 
+                      
 
-
+                        sess.user = mydata;
+                        console.log(sess.user,"usevaladh")
                         res.render('seed', {
 
                                 seedvalue: seed
@@ -305,7 +262,7 @@ app.post('/register', (req, res, next) => {
 
                         )
 
-
+                      
 
 
                     }
@@ -322,62 +279,47 @@ app.post('/register', (req, res, next) => {
 
 
 
-        // mydata.email= email;
-        // mydata.password=mydata.generateHash(password);
-        // console.log("newuser",mydata.password)
 
 
+        
 
         console.log("email")
 
-
-        // console.log(res)
 
     });
 
 
 
 
-
 app.post('/login', function (req, res, next) {
         if (!req.body.email) {
-
-            error = 'email  is required'
+            error= 'email  is required'  
             res.render(
-                'login', {
-                    error: error,
-
-                },
-                console.log('erroe', error)
-
-
-            );
-
+                'login',{
+                 error:error,
+                          },
+             console.log('erroe',error)         
+             );
         };
         if (!req.body.password) {
-
-            error = ' password is required'
+             error= ' password is required'  
             res.render(
-                'login', {
-                    error: error,
-
-                },
-                console.log('erroe', error)
-
-
-            );
-
-        }
+                'login',{
+                 error:error,             
+             },
+             console.log('erroe',error)        
+             );
+       }
         next()
     },
-
+   
     (req, res, next) => {
 
         console.log("login")
 
         var email = req.body.email;
         var password = req.body.password;
-        var error = ""
+        var error=""
 
         User.findOne({
                 "email": email
@@ -385,92 +327,69 @@ app.post('/login', function (req, res, next) {
             },
 
 
-
+           
 
             (err, user) => {
                 var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
-                if (!passwordIsValid) {
-                    error = 'email and password is incorrect'
+                if (!passwordIsValid){
+                    error= 'email and password is incorrect'  
                     res.render(
-                        'login', {
-                            error: error,
-
-                        },
-                        console.log('erroe', error)
-
-
-                    );
-                } else {
-
+                        'login',{
+                         error:error,
+                     
+                     },
+                     console.log('erroe',error)
+                 
+                   
+                     );
+                }
+                else{
+                    req.session.user = user;
 
                     console.log("login")
 
-                    res.render('archive', {
-                            email: user.email,
-                            name: user.name,
-                            address: user.walletAddress,
-                            id: user.id,
+                    res.redirect('/listpage',{
+email:user.email,
+name:user.name,
+address:user.walletAddress,
+id:user.id,
 
+                      
+                         
+                    },
+                    console.log(req.session.user,"req.session"),
+                    console.log(user,"usetrhtdd"))
+                    
 
-
-                        },
-                        console.log(user, "usetrhtdd"))
-
-
-
-
-                    User.findOne(({
-                        email: req.body.email
-                    }), function (err, user) {
+             
+                   
+                    User.findOne(({ email: req.body.email })  , function(err, user) {
                         if (err) throw err;
                         console.log(user)
-                        console.log("wallwe", user.walletAddress)
-                        console.log("eamis", user.email)
-                        console.log("name", user.name)
-                    })
-
-
+                        console.log("wallwe",user.walletAddress)
+                        console.log("eamis",user.email)
+                        console.log("name",user.name)
+                    }) 
+                    
+                   
                 }
+               
+            
 
 
 
-
-
-
-
+                
+                  
             },
+        
+           
+            )
 
-
-        )
-
-
+           
     });
 
 
-app.get('/archive', (req, res) => {
 
-
-    res.render('archive', {
-
-
-
-
-    })
-
-});
-
-
-// app.post('/archive', function (req, res, next) {
-
-//     User.findById(req.user.walletAddress, function(err, doc) {
-//         res.render('archive', {
-//             id     : "user.id"
-//         });   
-
-//         console.log("id",id)
-// });
-
-// })
 
 app.get('/sign', function (req, res, next) {
     res.render('archive', {
@@ -483,49 +402,73 @@ app.get('/sign', function (req, res, next) {
     })
 
 })
-app.get('/seed/:id', function (req, res, next) {
-    var seeds = req.param('id')
-    console.log(seeds, "seeds")
+app.get('/seed', function (req, res) {
+    sess = req.session;
+    console.log(req.session,"sdee")
+
+console.log("helloworld")
+res.redirect('/listpage')
+
+   
 
 
 
-
-
-    // res.set("Content-Disposition", "attachment;filename=file.csv");
-    //                       res.set("Content-Type", "application/octet-stream");
-    //                       res.sendownloadd(seeds);
-    // var file = __dirname +'/upload-folder/dramaticpenguin.txt';
-    // res.download(file); 
-    // var file = ('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(seeds));
-
-    // console.log("valueseed")
-    // var file = "seed";
-    // console.log("file",file)
-    // res.download(file); 
-
-    //   res.render('archive')
-
-
-
-
-}, )
-
-app.get("/profile", function (req, res) {
-    user.get(req.id, (error, result) => {
-        if (error) {
-            return response.status(500).send(error);
-        }
-        response.send(result.value);
-    });
-    console.log("email")
-    res.render('profile', {
-        user: req.user,
-
-    })
-
-    console.log("name", user)
 
 })
+
+
+
+
+app.get("/profile", function(req, res){
+    sess = req.session;
+    console.log(sess.user,"sdee")
+      if(!sess.user) {
+            res.redirect('/listpage');
+       } else {
+
+
+                     res.render('profile',{
+
+
+
+                       email: req.session.user.email,
+                     name: req.session.user.name ,
+                     phonenumber:req.session.user.phonenumber,
+                     address:req.session.user.address
+
+
+                     })
+                    }
+  
+}) 
+
+app.post('/profile', function (req, res) {
+    console.log("sessoin")
+        sess = req.session;
+        console.log(req.body);
+    
+        if(!sess.user) {
+              res.redirect('/login');
+         } else {
+    
+                 
+                    User.findById(req.session.user["_id"], (err, user) => {
+                        console.log(user,"userdetails")
+                                  user["phonenumber"] = req.body.phonenumber;
+                                  user["address"] = req.body.address;
+                                  sess.user = user;
+                                  console.log("User data...", user);
+                                  user.save((err, usr) => {
+                                  if (err) { console.log(err); throw err.message;}
+    
+                                //    res.json('success', 'Details succesfully saved......');
+                                  return res.redirect('/listpage');
+                                });
+                    });
+                   //res.redirect('/profile');
+            }     
+      })
+
 app.get('/logout', function (req, res) {
     res.render('login', {
 
@@ -534,28 +477,88 @@ app.get('/logout', function (req, res) {
         password: ""
     })
 });
-app.get('/static', function (req, res) {
-    res.render('static', {
 
-        price: "",
-        name: "",
-        description: "",
-        path: ""
-    })
-});
+
+
+
+
+
+
+
+
+
 app.get('/:id', function (req, res) {
 
-    routes.getImageById(req.params.id, function (id, docs) {
-        console.log("docs", docs)
+
+    sess = req.session;
+    if(!(sess.user)) {
+        routes.getImageById(req.params.id, function (id, docs) {
+            console.log("docs", docs)
+            var price = docs.price
+            var name = docs.name
+            var path = docs.path
+            var description = docs.description
+            var size = docs.size
+            var skucode = docs.skucode
+            var type = docs.type
+            var material = docs.material
+    
+            console.log("skucode", skucode)
+            console.log("name", name)
+            console.log("Price", price)
+    
+            res.render('static', {
+                    price: price,
+                    name: name,
+                    path: path,
+                    description: description,
+                    size: size,
+                    skucode: skucode,
+                    material: material,
+                    type: type
+    
+                },
+    
+            )
+            console.log("docs")
+    
+    
+        })
+    
+   } else {
+
+
+    User.findById(req.session.user["_id"], (err, user) => {
+    console.log(req.params,"edds")
+var idvalue=req.params.id
+
+console.log(idvalue,"idd")
+
+console.log(req.params,"reqparamsis")
+routers.getImageById( req.params.id , function (id, reult) {
+        console.log("docs", reult)
+        var price = reult.price
+        var name = reult.name
+        var path = reult.path
+        var description = reult.description
+        var size = reult.size
+        var skucode = reult.skucode
+        var type = reult.type
+        var material = reult.material
+
+        console.log("skucode", skucode)
+        console.log("name", name)
+        console.log("Price", price)
+
         res.render('static', {
-
-                price: docs.price,
-                name: docs.name,
-                path: docs.path,
-                description: docs.description,
-                size:docs.size,
-                skucode:docs.skucode
-
+                price: price,
+                name: name,
+                path: path,
+                description: description,
+                size: size,
+                skucode: skucode,
+                material: material,
+                type: type
 
             },
 
@@ -564,67 +567,10 @@ app.get('/:id', function (req, res) {
 
 
     })
+})
+   }
 
 });
-
-
-
-
-// });
-
-
-// app.get('/uploads/:id',function(req,res){
-//     var albums=[{price:req.params.id},{description:req.params.id},{name:req.params.id}]
-//     let id =req.params.id
-//     console.log("id",id)
-//     console.log("uploads")
-//     const album = albums.filter((album) => {
-//         return album.id == req.params.id
-//       })[0]
-//  console.log(albums,"albums")
-//     res.render('static',{
-
-//         price: album.price,
-//         description: album.description,
-//         name: album.name
-
-//     });
-//     console.log("album")
-// });
-
-app.get('/view', function (req, res) {
-    res.render('view.html', {
-        // res.json({
-        name: smartContract.name(),
-        address: contractAddress,
-        id: "",
-        message: "",
-        detailstring: ""
-    });
-});
-
-app.post('/view', function (req, res) {
-    console.log("req.body", req.body)
-    console.log("ID", req.body.id);
-
-    var id = req.body.id;
-    var token = smartContract.exists(id)
-    console.log("token", token)
-
-    if (token) {
-        //   propDetails =  smartContract.totalSupply();
-        propDetails = smartContract.getDetails(id);
-        console.log("propDetails", propDetails);
-        console.log("propDetails", JSON.parse(propDetails));
-
-    } else {
-        message = "Record not found"
-    }
-    //    console.log("jsondetails",JSON.parse(propDetails));
-});
-
-
-
 app.get('/index', function (req, res) {
     res.render('index');
 
