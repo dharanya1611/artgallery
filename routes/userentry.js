@@ -101,7 +101,7 @@ var upload = multer({
 
 
 
-router.get("/userentry", function (req, res) {
+router.get("/addart", function (req, res) {
 console.log("hlooe")
     sess = req.session;
 
@@ -139,7 +139,7 @@ console.log(req.session.user["_id"],"iojjhdc")
   })
 
 
-  router.post("/userentry",upload.any('idproof'),  function (req, res) {
+  router.post("/addart",upload.any('idproof'),  function (req, res) {
    
 
     sess = req.session;
@@ -194,7 +194,7 @@ console.log(req.session.user["_id"],"iojjhdc")
         router.addImage(entity, function (err) {
           
         });
-res.redirect('/listpage')
+res.redirect('/myarts')
 
     })
 
@@ -203,7 +203,7 @@ res.redirect('/listpage')
 
 
 
-    router.get('/listpage',function(req,res){
+    router.get('/myarts',function(req,res){
         sess = req.session;
         if(!(sess.user)) {
             res.redirect('/login');

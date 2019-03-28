@@ -89,7 +89,7 @@ mongoose.connect('mongodb://gallery:password1611@ds155201.mlab.com:55201/gallery
 app.get('/', function (req, res) {
 
 
-    routes.getImages(function (err, docs) {
+    routers.getImages(function (err, docs) {
         if (err) {
             throw err;
             console.log("err", error)
@@ -104,29 +104,21 @@ app.get('/', function (req, res) {
 })
 
 
-app.get('/arts', function (req, res) {
+app.get('/contact', function (req, res) {
 
     console.log("alnhjfgd")
-    routes.getImages(function (err, docs) {
-        // console.log("docs",docs)
-        if (err) {
-            throw err;
-            console.log("err", error)
-        }
-        for (var i = 0; i < docs.length; i++) {
-           
-        }
-        res.render('list', {
-            albums: docs
-        });
+    
+        res.render('contact');
         console.log("albums")
-    });
+    
 })
 
 app.get('/home', function (req, res) {
-
+   
+    var sess = req.session;
+    req.session.destroy();
     console.log("alnhjfgd")
-    routes.getImages(function (err, docs) {
+    routers.getImages(function (err, docs) {
         // console.log("docs",docs)
         if (err) {
             throw err;
@@ -140,6 +132,8 @@ app.get('/home', function (req, res) {
         });
         console.log("albums")
     });
+
+
 })
 app.get('/register', function (req, res) {
 
@@ -160,6 +154,7 @@ app.get('/login', function (req, res) {
         email: "",
         password: "",
     })
+    
 })
 
 app.post('/register', (req, res, next) => {
@@ -366,7 +361,7 @@ app.post('/login', function (req, res, next) {
 
                     console.log("login")
 
-                    res.redirect('/listpage',{
+                    res.redirect('/myarts',{
 email:user.email,
 name:user.name,
 address:user.walletAddress,
@@ -425,7 +420,7 @@ app.get('/seed', function (req, res) {
     console.log(req.session,"sdee")
 
 console.log("helloworld")
-res.redirect('/listpage')
+res.redirect('/myarts')
 
    
 
@@ -441,7 +436,7 @@ app.get("/profile", function(req, res){
     sess = req.session;
     console.log(sess.user,"sdee")
       if(!sess.user) {
-            res.redirect('/listpage');
+            res.redirect('/myarts');
        } else {
 
 
@@ -480,7 +475,7 @@ app.post('/profile', function (req, res) {
                                   if (err) { console.log(err); throw err.message;}
     
                                 //    res.json('success', 'Details succesfully saved......');
-                                  return res.redirect('/listpage');
+                                  return res.redirect('/myarts');
                                 });
                     });
                    //res.redirect('/profile');
@@ -488,6 +483,8 @@ app.post('/profile', function (req, res) {
       })
 
 app.get('/logout', function (req, res) {
+    var sess = req.session;
+    req.session.destroy();
     res.render('login', {
 
         error: "",
@@ -508,45 +505,10 @@ app.get('/logout', function (req, res) {
 app.get('/:id', function (req, res) {
 
 
-    sess = req.session;
-    if(!(sess.user)) {
-        routes.getImageById(req.params.id, function (id, docs) {
-            console.log("docs", docs)
-            var price = docs.price
-            var name = docs.name
-            var path = docs.path
-            var description = docs.description
-            var size = docs.size
-            var skucode = docs.skucode
-            var type = docs.type
-            var material = docs.material
     
-            console.log("skucode", skucode)
-            console.log("name", name)
-            console.log("Price", price)
-    
-            res.render('static', {
-                    price: price,
-                    name: name,
-                    path: path,
-                    description: description,
-                    size: size,
-                    skucode: skucode,
-                    material: material,
-                    type: type
-    
-                },
-    
-            )
-            console.log("docs")
-    
-    
-        })
-    
-   } else {
 
 
-    User.findById(req.session.user["_id"], (err, user) => {
+   
     console.log(req.params,"edds")
 var idvalue=req.params.id
 
@@ -568,7 +530,7 @@ routers.getImageById( req.params.id , function (id, reult) {
         console.log("name", name)
         console.log("Price", price)
 
-        res.render('static', {
+        res.render('single', {
                 price: price,
                 name: name,
                 path: path,
@@ -585,8 +547,8 @@ routers.getImageById( req.params.id , function (id, reult) {
 
 
     })
-})
-   }
+
+  
 
 });
 app.get('/index', function (req, res) {
