@@ -104,8 +104,26 @@ app.get('/', function (req, res) {
 })
 
 
+app.get('/arts', function (req, res) {
 
-app.get('/list', function (req, res) {
+    console.log("alnhjfgd")
+    routes.getImages(function (err, docs) {
+        // console.log("docs",docs)
+        if (err) {
+            throw err;
+            console.log("err", error)
+        }
+        for (var i = 0; i < docs.length; i++) {
+           
+        }
+        res.render('list', {
+            albums: docs
+        });
+        console.log("albums")
+    });
+})
+
+app.get('/home', function (req, res) {
 
     console.log("alnhjfgd")
     routes.getImages(function (err, docs) {
