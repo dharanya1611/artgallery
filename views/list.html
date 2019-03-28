@@ -54,11 +54,11 @@
             <div class="register">
               <a href="#"> <a href="register">Sign up</a></i></a>
             </div>&emsp;&emsp;
-            <div class="entry">
+            <!-- <div class="entry">
               <a href="#">
                 <a href="entry">entry</a>
               </a>
-            </div>
+            </div> -->
             <!-- <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
                 <a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a>
                 <a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a> -->
@@ -93,33 +93,33 @@
             <div class="collapse navbar-collapse justify-content-center" id="yummyfood-nav">
               <ul class="navbar-nav" id="yummy-nav">
                 <li class="nav-item">
-                  <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="list">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="yummyDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">Pages</a>
                   <div class="dropdown-menu" aria-labelledby="yummyDropdown">
-                    <a class="dropdown-item" href="index.html">Home</a>
-                    <a class="dropdown-item" href="archive.html">Archive</a>
-                    <a class="dropdown-item" href="single.html">Single Blog</a>
+                    <a class="dropdown-item" href="list">Arts</a>
+                    <a class="dropdown-item" href="login">MyArts</a>
+                    <!-- <a class="dropdown-item" href="single.html">Single Blog</a>
                     <a class="dropdown-item" href="static.html">Static Page</a>
-                    <a class="dropdown-item" href="contact.html">Contact</a>
+                    <a class="dropdown-item" href="contact">Contact</a> -->
                   </div>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a class="nav-link" href="#">Features</a>
-                </li>
-                <li class="nav-item">
+                </li> -->
+                <!-- <li class="nav-item">
                   <a class="nav-link" href="#">Categories</a>
-                </li>
-                <li class="nav-item active">
+                </li> -->
+                <!-- <li class="nav-item active">
                   <a class="nav-link" href="archive.html">Archive</a>
-                </li>
-                <li class="nav-item">
+                </li> -->
+                <!-- <li class="nav-item">
                   <a class="nav-link" href="#">About</a>
-                </li>
+                </li> -->
                 <li class="nav-item">
-                  <a class="nav-link" href="contact.html">Contact</a>
+                    <a class="nav-link" href="contact.html">Contact</a>
                 </li>
               </ul>
             </div>
@@ -131,7 +131,7 @@
   <!-- ****** Header Area End ****** -->
 
   <!-- ****** Breadcumb Area Start ****** -->
-  <div class="breadcumb-area" style="background-image: url(public/docs/background.jpg);">
+  <!-- <div class="breadcumb-area" style="background-image: url(public/docs/background.jpg);">
     <div class="container h-100">
       <div class="row h-100 align-items-center">
         <div class="col-12">
@@ -141,7 +141,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <div class="breadcumb-nav">
     <div class="container">
       <div class="row">
@@ -149,7 +149,7 @@
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="#"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Archive Page</li>
+              <li class="breadcrumb-item active" aria-current="page">Arts</li>
             </ol>
           </nav>
         </div>
@@ -183,12 +183,12 @@
                 <div class="post-author-date-area d-flex">
                   <!-- Post Author -->
                   <div class="post-author">
-                    <a  href='/<%=album._id%>' >
+                    <a  href='/<%=album._id%>' style="color:#000;"  >
                       <%=album.name%></a>
                   </div>
                   <!-- Post Date -->
                   <div class="post-date">
-                    <a id="price" href='/<%=album._id%>'>
+                    <a id="price" href='/<%=album._id%>' style="color:#000;" >
                       <%=album.price%></a>
                   </div>
                 </div>
@@ -196,7 +196,7 @@
                 <div class="post-comment-share-area d-flex">
                   <!-- Post Favourite -->
                   <div class="post-favourite">
-                    <a id="id" href='/<%=album._id%>'>
+                    <a id="id" href='/<%=album._id%>' style="color:#000;" >
                       <%=album.id%></a>
                   </div>
                   <!-- Post Comments -->
@@ -209,11 +209,11 @@
                   </div> -->
                 </div>
               </div>
-              <a id="description" name="description" href='/<%=album._id%>'  >
+              <!-- <a id="description" name="description" href='/<%=album._id%>'  >
                 <h4 class="post-headline">
                   <%=album.description%>
                 </h4>
-              </a>
+              </a> -->
             </div>
           </div>
 
